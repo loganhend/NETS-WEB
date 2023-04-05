@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %} Crew {% endblock %}</h1>
+{% endblock %}
+
+{% block buttons %}
+    <ul>
+        <li><a href="{{ url_for("btvs.add_crew") }}" class="button">Add Crew Member</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="flex-row">
+        {% for crew_mem in crew %}
+            <div class="polaroid">
+                <img class="image" src="{{ url_for('static', filename=crew_mem['img']) }}" style="width:100%">
+                <div class="container"><a href="{{ url_for('btvs.view_crew_member', crew_id=crew_mem['id']) }}" class="link">{{ crew_mem['name'] }}</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
