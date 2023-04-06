@@ -22,7 +22,7 @@
         <input type="submit" value="Save">
     </form>
 
-    <form action="{{ url_for('btvs.delete_episode', ep_id=episode['id']) }}" method="post" style="margin-top: 10%">
+    <form action="{{ url_for('delete_episode', ep_id=episode['id']) }}" method="post" style="margin-top: 10%">
         <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
     </form>
 

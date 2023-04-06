@@ -6,12 +6,11 @@
 
 {% block buttons %}
     <ul>
-        <li><a href="{{ url_for('btvs.edit_character', char_id=character['id']) }}" class="button">Edit character</a></li>
+        <li><a href="{{ url_for('edit_character', char_id=character['id']) }}" class="button">Edit character</a></li>
     </ul>
 {% endblock %}
 
 {% block content %}
     <img class="image" src="{{ url_for('static', filename=character['img']) }}" style="width: 50%">
-    <p>Played by: <a href="{{ url_for('btvs.view_crew_member', crew_id=['id']) }}" class="button">{{ character['played_by'] }}</a></p>
     <p>{{ character['info'] }}</p>
 {% endblock %}

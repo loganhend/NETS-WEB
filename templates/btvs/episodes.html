@@ -6,7 +6,7 @@
 
 {% block buttons %}
     <ul>
-        <li><a href="{{ url_for("btvs.add_episode") }}" class="button">Add Episode</a></li>
+        <li><a href="{{ url_for("add_episode") }}" class="button">Add Episode</a></li>
     </ul>
 {% endblock %}
 
@@ -15,7 +15,7 @@
         {% for episode in episodes %}
             <div class="polaroid">
                 <img class="image" src="{{ url_for('static', filename=episode['img']) }}">
-                <div class="container"><a href="{{ url_for('btvs.view_episode', ep_id=episode['id']) }}" class="link">{{ episode['season'] }}x{{ episode['num'] }}: {{ episode['name'] }}</a></div>
+                <div class="container"><a href="{{ url_for('view_episode', ep_id=episode['id']) }}" class="link">{{ episode['season'] }}x{{ episode['num'] }}: {{ episode['name'] }}</a></div>
             </div>
         {% endfor %}
     </div>

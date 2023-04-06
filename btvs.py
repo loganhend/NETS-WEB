@@ -7,13 +7,16 @@ from flask import request
 from flask import url_for
 from werkzeug.exceptions import abort
 from db import get_db
-#from flask_uploads import UploadSet, IMAGES
+from flask_uploads import UploadSet, IMAGES
+from flask_uploads import configure_uploads
 
-#photos = UploadSet('photos', IMAGES)
+photos = UploadSet('photos', IMAGES)
 
 #bp = Blueprint("btvs", __name__)
 
 app = Flask(__name__, instance_relative_config=True, template_folder='templates')
+app.config["UPLOADED_PHOTOS_DEST"] = "static"
+configure_uploads(app, photos)
 
 """ 
 Fragment functions 
@@ -93,7 +96,7 @@ def get_actor_id(name):
     actor_id = (
         get_db()
         .execute(
-            "SELECT people.id"
+            "SELECT people.id, people.name"
             " FROM people"
             " WHERE people.name = ?",
             (name,),
@@ -107,14 +110,12 @@ View functions
 """
 
 
-
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('main_page.html')
+    """ View the main page. """
 
-@app.route('/view')
-def view():
-    return render_template('btvs/character.html')
+    return render_template("main_page.html")
+
 
 # 1. EPISODES
 
@@ -177,7 +178,7 @@ def edit_episode(ep_id):
                 (name, info, num, directed_by, written_by, date, ep_id)
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/edit_episode.html", episode=episode)
 
 
@@ -220,7 +221,7 @@ def add_episode():
                 (filename, name, info, num, date, directed_by, written_by, season),
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/add_episode.html")
 
 
@@ -235,7 +236,7 @@ def delete_episode(ep_id):
         (ep_id,)
     )
     db.commit()
-    return redirect(url_for("btvs.index"))
+    return redirect(url_for("index"))
 
 
 # 2. SEASONS
@@ -288,7 +289,7 @@ def edit_season(s_id):
                 (name, info, num, s_id)
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/edit_season.html", season=season)
 
 
@@ -318,7 +319,7 @@ def add_season():
                 (filename, name, info, num)
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/add_season.html")
 
 
@@ -339,7 +340,7 @@ def delete_season(s_id):
         (s_id,)
     )
     db.commit()
-    return redirect(url_for("btvs.index"))
+    return redirect(url_for("index"))
 
 
 # 3. CHARACTERS
@@ -386,14 +387,14 @@ def edit_character(char_id):
         if error is not None:
             flash(error)
         else:
-            actor_id = get_actor_id(actor)
+            actor_id = get_actor_id(actor)['id']
             db = get_db()
             db.execute(
                 "UPDATE characters SET name = ?, info = ?, played_by = ? WHERE id = ?",
                 (name, info, actor_id, char_id)
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/edit_character.html", character=character)
 
 
@@ -428,10 +429,10 @@ def add_character():
             db = get_db()
             db.execute(
                 "INSERT OR IGNORE INTO characters (img, name, info, played_by) VALUES (?,?,?,?)",
-                (filename, name, info, get_actor_id(actor),),
+                (filename, name, info, get_actor_id(actor)['id'],),
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/add_character.html")
 
 
@@ -446,7 +447,7 @@ def delete_character(char_id):
         (char_id,)
     )
     db.commit()
-    return redirect(url_for("btvs.index"))
+    return redirect(url_for("index"))
 
 
 # 4. CREW
@@ -496,7 +497,7 @@ def edit_crew(crew_id):
                 (name, info, crew_id)
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/edit_crew.html", crew_member=crew_member)
 
 
@@ -523,7 +524,7 @@ def add_crew():
                 (filename, name, info,)
             )
             db.commit()
-            return redirect(url_for("btvs.index"))
+            return redirect(url_for("index"))
     return render_template("btvs/add_crew.html")
 
 
@@ -538,4 +539,4 @@ def delete_crew(crew_id):
         (crew_id,)
     )
     db.commit()
-    return redirect(url_for("btvs.index"))
+    return redirect(url_for("index"))
