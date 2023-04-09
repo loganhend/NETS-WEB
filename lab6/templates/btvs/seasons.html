@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %} Seasons {% endblock %}</h1>
+{% endblock %}
+
+{% block buttons %}
+    <ul>
+        <li><a href="{{ url_for("add_season") }}" class="button">Add Season</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="flex-row">
+        {% for season in seasons %}
+            <div class="polaroid">
+                <img class="image" src="{{ url_for('static', filename=season['img']) }}">
+                <div class="container"><a href="{{ url_for('view_season', s_id=season['id']) }}" class="link">{{ season['name'] }}</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
