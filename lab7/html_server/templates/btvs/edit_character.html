@@ -1,0 +1,23 @@
+{% extends '../base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Edit character: {{ character['name'] }} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <img class="image" src="{{ url_for('static', filename=character['img']) }}" style="width: 50%;">
+    <form class="flex-col" method="post">
+        <label for="name">Character name: </label>
+        <input name="name" id="name" value="{{ request.form["name"] or character['name'] }}" required>
+        <label for="actor">Played by: </label>
+        <input name="actor" id="actor" value="{{ request.form["actor"] or character['played_by'] }}" required>
+        <label for="info">Info: </label>
+        <input name="info" id="info" value="{{ request.form["info"] or character['info'] }}" required>
+        <input type="submit" value="Save">
+    </form>
+
+    <form action="{{ url_for('delete_character', char_id=character['id']) }}" method="post" style="margin-top: 10%">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+
+{% endblock %}

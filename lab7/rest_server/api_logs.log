@@ -1,0 +1,5 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 100-214-992
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 17:42:56] "GET /api/seasons HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 17:43:36] "GET /api/seasons HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 17:43:37] "GET /api/episodes HTTP/1.1" 200 -

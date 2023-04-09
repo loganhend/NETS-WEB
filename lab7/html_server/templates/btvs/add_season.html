@@ -1,0 +1,20 @@
+{% extends '../base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add new season{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form class="flex-col" method="post" enctype=multipart/form-data>
+        <label for="num">Season number: </label>
+        <input name="num" id="num" value="{{ request.form["num"] }}" required>
+        <label for="name">Season name: </label>
+        <input name="name" id="name" value="{{ request.form["name"] }}" required>
+        <label for="info">Info: </label>
+        <input name="info" id="info" value="{{ request.form["info"] }}" required>
+        <label for="img">Image</label>
+        <input type="file" name="img">
+        <input type="submit" value="Save">
+    </form>
+
+{% endblock %}
