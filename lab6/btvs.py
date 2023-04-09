@@ -131,6 +131,7 @@ def view_episodes():
         " INNER JOIN seasons on episodes.season_id = seasons.id"
         " ORDER BY episodes.num "
     ).fetchall()
+    print(episodes)
     return render_template("btvs/episodes.html", episodes=episodes)
 
 
@@ -252,6 +253,9 @@ def view_seasons():
         " FROM seasons"
         " ORDER BY seasons.num "
     ).fetchall()
+    print("----------")
+    print(seasons)
+    print("----------")
     return render_template("btvs/seasons.html", seasons=seasons)
 
 
@@ -314,6 +318,12 @@ def add_season():
             flash(error)
         else:
             db = get_db()
+            print("SENDING")
+            print(filename)
+            print(name)
+            print(info)
+            print(num)
+            print("-----")
             db.execute(
                 "INSERT OR IGNORE INTO seasons (img, name, info, num) VALUES (?,?,?,?)",
                 (filename, name, info, num)

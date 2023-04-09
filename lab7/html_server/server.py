@@ -9,6 +9,8 @@ from werkzeug.exceptions import abort
 from flask_uploads import UploadSet, IMAGES
 from flask_uploads import configure_uploads
 import requests
+import urllib.request
+import json
 
 photos = UploadSet('photos', IMAGES)
 
@@ -27,12 +29,10 @@ def index():
 def view_episodes():
     """ View the episodes in the btvs in alphabetical order. """
 
-    episodes = requests.get(f"http://localhost:8000/api/episodes")
+    url = "http://localhost:8000/api/episodes"
+    response = urllib.request.urlopen(url)
+    episodes = json.loads(response.read().decode())
     print(episodes)
-
-    # Check for errors
-    if episodes.status_code != 200:
-        return "Error fetching episode data"
 
     return render_template("btvs/episodes.html", episodes=episodes)
 
@@ -40,14 +40,12 @@ def view_episodes():
 def view_seasons():
     """ View the episodes in the btvs in alphabetical order. """
 
-    seasons = requests.get(f"http://localhost:8000/api/seasons")
+    url = "http://localhost:8000/api/seasons"
+    response = urllib.request.urlopen(url)
+    seasons = json.loads(response.read().decode())
     print(seasons)
 
-    # Check for errors
-    if seasons.status_code != 200:
-        return "Error fetching episode data"
-
-    return render_template("btvs/seasons.html", episodes=seasons)
+    return render_template("btvs/seasons.html", seasons=seasons)
 
 @app.route("/characters")
 def view_characters():

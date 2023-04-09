@@ -1,0 +1,27 @@
+[
+  {
+    "info": "Chuck Lorre is an American television writer, producer, and composer. He is best known as the co-creator of 'The Big Bang Theory'.",
+    "name": "Chuck Lorre",
+    "filename": "chuck_lorre.png"
+  },
+  {
+    "info": "Bill Prady is an American television writer and producer. He is best known as the co-creator of 'The Big Bang Theory'.",
+    "name": "Bill Prady",
+    "filename": "bill_prady.png"
+  },
+  {
+    "info": "Johnny Galecki is an American actor. He played the role of Leonard Hofstadter on 'The Big Bang Theory'.",
+    "name": "Johnny Galecki",
+    "filename": "johnny_galecki.png"
+  },
+  {
+    "info": "Jim Parsons is an American actor. He played the role of Sheldon Cooper on 'The Big Bang Theory'.",
+    "name": "Jim Parsons",
+    "filename": "jim_parsons.png"
+  },
+  {
+    "info": "Kaley Cuoco is an American actress. She played the role of Penny on 'The Big Bang Theory'.",
+    "name": "Kaley Cuoco",
+    "filename": "kaley_cuoco.png"
+  }
+]

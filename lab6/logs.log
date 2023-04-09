@@ -1,2 +1,21 @@
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 472-656-901
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:18:58] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:18:59] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:18:59] "[36mGET /static/main.jpg HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:18:59] "[36mGET /static/watchparty.jpg HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "GET /seasons HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "[33mGET /static/big_bang_theory_season_1.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "[33mGET /static/big_bang_theory_season_3.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "[33mGET /static/big_bang_theory_season_2.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "[33mGET /static/big_bang_theory_season_4.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:01] "[33mGET /static/big_bang_theory_season_5.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:04] "GET /episodes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:04] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:04] "[33mGET /static/big_bang_theory_s01e01.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:06] "GET /characters HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:06] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:06] "[33mGET /static/leonard.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:06] "[33mGET /static/penny.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:19:06] "[33mGET /static/sheldon.png HTTP/1.1[0m" 404 -

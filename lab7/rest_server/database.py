@@ -4,6 +4,7 @@ import click
 from flask import current_app
 from flask import g
 from flask.cli import with_appcontext
+import json
 
 from db import get_db
 
@@ -16,7 +17,13 @@ def get_all_episodes():
         " INNER JOIN seasons on episodes.season_id = seasons.id"
         " ORDER BY episodes.num "
     ).fetchall()
-    return episodes
+
+    rows = []
+    for row in episodes:
+        rows.append(dict(row))
+
+    json_string = json.dumps(rows)
+    return json_string
 
 def get_all_seasons():
     db = get_db()
@@ -25,7 +32,13 @@ def get_all_seasons():
         " FROM seasons"
         " ORDER BY seasons.num "
     ).fetchall()
-    return seasons
+
+    rows = []
+    for row in seasons:
+        rows.append(dict(row))
+
+    json_string = json.dumps(rows)
+    return json_string
 
 def get_episode(ep_id):
     """ Get episode from the db by id. """
