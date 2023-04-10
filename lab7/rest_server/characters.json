@@ -2,19 +2,19 @@
   {
     "info": "Johnny Galecki is an American actor. He played the role of Leonard Hofstadter on 'The Big Bang Theory'.",
     "name": "Leonard Hofstadter",
-    "filename": "leonard.png",
+    "filename": "leonard.jpg",
     "actor": "Johnny Galecki"
   },
   {
     "info": "Jim Parsons is an American actor. He played the role of Sheldon Cooper on 'The Big Bang Theory'.",
     "name": "Sheldon Cooper",
-    "filename": "sheldon.png",
+    "filename": "sheldon.jpg",
     "actor": "Jim Parsons"
   },
   {
     "info": "Kaley Cuoco is an American actress. She played the role of Penny on 'The Big Bang Theory'.",
     "name": "Penny",
-    "filename": "penny.png",
+    "filename": "penny.jpg",
     "actor": "Kaley Cuoco"
   }
 ]
