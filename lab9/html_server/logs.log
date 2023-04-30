@@ -1,0 +1,9 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 292-056-666
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:18] "GET /seasons HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:18] "[33mGET /static/big_bang_theory_season_1.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:18] "[33mGET /static/big_bang_theory_season_2.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:18] "[33mGET /static/big_bang_theory_season_3.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:18] "[33mGET /static/big_bang_theory_season_4.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:18] "[33mGET /static/big_bang_theory_season_5.png HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [09/Apr/2023 21:55:19] "[36mGET /static/style.css HTTP/1.1[0m" 304 -

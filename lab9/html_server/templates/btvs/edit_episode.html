@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Edit episode: {{ episode['season'] }}x{{ episode['num'] }}: {{ episode['name'] }} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <img class="image" src="{{ url_for('static', filename=episode['img']) }}" style="width: 50%;">
+    <form class="flex-col" method="post">
+        <label for="num">Episode number: </label>
+        <input name="num" id="num" value="{{ request.form["num"] or episode['num'] }}" required>
+        <label for="name">Episode name: </label>
+        <input name="name" id="name" value="{{ request.form["name"] or episode['name'] }}" required>
+        <label for="date">Date released: </label>
+        <input name="date" id="date" value="{{ request.form["date"] or episode['date_released'] }}" required>
+        <label for="directed_by">Directed by: </label>
+        <input name="directed_by" id="directed_by" value="{{ request.form["directed_by"] or episode['directed_by'] }}" required>
+        <label for="written_by">Written by: </label>
+        <input name="written_by" id="written_by" value="{{ request.form["written_by"] or episode['written_by'] }}" required>
+        <label for="info">Info: </label>
+        <input name="info" id="info" value="{{ request.form["info"] or episode['info'] }}" required>
+        <input type="submit" value="Save">
+    </form>
+
+    <form action="{{ url_for('delete_episode', ep_id=episode['id']) }}" method="post" style="margin-top: 10%">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+
+{% endblock %}

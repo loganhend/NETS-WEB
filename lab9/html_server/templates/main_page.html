@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="column">
+            <img class="image" src="{{url_for('static', filename='main.jpg')}}" style="width: 40%; padding-right: 20px;" align="left" />
+            <h2>About the Show - The Big bang theory</h2>
+            <p>The Big Bang Theory is a popular American sitcom television series that aired on CBS from 2007 to 2019. Created by Chuck Lorre and Bill Prady, it follows the lives of a group of nerdy and socially awkward scientists and their friends, focusing primarily on the lives of physicists Sheldon Cooper and Leonard Hofstadter, played by Jim Parsons and Johnny Galecki respectively. The show ran for 12 seasons and 279 episodes, making it one of the longest-running sitcoms in television history.</p>
+            <p>One of the key features of The Big Bang Theory is its use of scientific and geeky humor, often referencing pop culture, science fiction, and comic books. The show became famous for its portrayal of nerdy characters who struggle to navigate their social lives and relationships while dealing with their academic and scientific pursuits. The characters' quirks and peculiarities, such as Sheldon's obsession with routine and Leonard's lack of self-confidence, have become iconic and beloved by fans of the show.</p>
+            <p>Another aspect of the show's popularity is its portrayal of friendships and relationships. The characters' close friendships and romantic relationships often provide a counterbalance to their academic pursuits, highlighting the importance of human connections and emotional support. Throughout the series, the characters face various challenges, such as breakups, rejections, and conflicts, which are often resolved through communication and mutual understanding.</p>
+            <p>The Big Bang Theory also gained attention for its representation of women in science and technology fields. The show introduced female characters such as Bernadette Rostenkowski-Wolowitz and Amy Farrah Fowler, who are highly intelligent and successful in their respective fields. These characters challenged stereotypes about women in science and technology and provided inspiration for young girls interested in pursuing careers in these fields.</p>
+            <p>Overall, The Big Bang Theory was a highly successful and influential sitcom that touched on various themes such as science, pop culture, friendship, and relationships. It provided a unique and humorous perspective on the lives of nerdy and socially awkward individuals, making it relatable and entertaining for audiences of all ages. Even though the show has ended, its legacy continues to live on through reruns and spinoffs such as Young Sheldon.</p>
+        </div>
+    <hr>
+    <div class="column">
+        <img class="image" src="{{ url_for('static', filename='watchparty.jpg') }}" style="width: 60%; padding-left: 20px;" align="right">
+        <h2>About the WATCH PARTY</h2>
+        <p>This is a fan page dedicated to the show 'The Big bang theory'.</p>
+        <p>This upcoming month we are planning to host a virtual watch party - and we invite all of you to join us!</p>
+        <p>Below you will find a link to get all the info on the dates and episodes we are watching.</p>
+        <p>To participate please apply using the form below.</p>
+        <h3><i>*quaking in our stylish yet affordable boots*</i></h3>
+    </div>
+    <hr>
+
+{% endblock %}
