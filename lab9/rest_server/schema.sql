@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS seasons;
 DROP TABLE IF EXISTS episodes;
 DROP TABLE IF EXISTS characters;
 DROP TABLE IF EXISTS people;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE seasons (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +30,13 @@ CREATE TABLE people (
   img text unique,
   name TEXT UNIQUE NOT NULL,
   info TEXT,
+  unique (name)
+);
+
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT UNIQUE NOT NULL,
+  password TEXT UNIQUE NOT NULL,
   unique (name)
 );
 

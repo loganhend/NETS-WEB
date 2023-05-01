@@ -1,0 +1,27 @@
+[
+   { "num": 1,
+     "info": "The first season introduces the main characters and sets up the premise of the show.",
+     "name": "The Big Bang Theory - Season 1",
+     "filename": "big_bang_theory_season_1.jpg"
+   },
+   { "num": 2,
+     "info": "The second season continues the development of the characters and their relationships.",
+     "name": "The Big Bang Theory - Season 2",
+     "filename": "big_bang_theory_season_2.jpg"
+   },
+   { "num": 3,
+     "info": "The third season features the arrival of a new character, Penny's ex-boyfriend, and the continuing development of the main characters' relationships.",
+     "name": "The Big Bang Theory - Season 3",
+     "filename": "big_bang_theory_season_3.jpg"
+   },
+   { "num": 4,
+     "info": "The fourth season sees the main characters' relationships develop further, and introduces new storylines such as the guys' quest for a time machine.",
+     "name": "The Big Bang Theory - Season 4",
+     "filename": "big_bang_theory_season_4.jpg"
+   },
+   { "num": 5,
+     "info": "The fifth season focuses on the romantic relationships between the characters, and features the arrival of a new female character, Bernadette.",
+     "name": "The Big Bang Theory - Season 5",
+     "filename": "big_bang_theory_season_5.jpg"
+   }
+]

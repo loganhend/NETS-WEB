@@ -8,6 +8,23 @@ import json
 
 from db import get_db
 
+def get_user(username):
+    user = (
+        get_db()
+        .execute(
+            "SELECT users.name, users.password, users.id"
+            " FROM users"
+            " WHERE users.name = ?",
+            (username,),
+        ).fetchone()
+    )
+    if user is None:
+        abort(404, "Season id {0} doesn't exist.".format(s_id))
+
+    rows = (dict(user))
+
+    json_string = json.dumps(rows)
+    return json_string
 
 def get_all_episodes():
     db = get_db()

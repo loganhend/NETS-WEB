@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Login{% endblock %}</h1>
+{% endblock %}
+
+{% block buttons %}
+    <ul>
+        <li><a href="{{ url_for('login_google') }}" class="button">Google</a></li>
+        <li><a href="{{ url_for('login_github') }}" class="button">GitHub</a></li>
+    </ul>
+{% endblock %}

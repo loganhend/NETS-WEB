@@ -5,18 +5,56 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
+from flask import session
+from datetime import timedelta
+from dotenv import load_dotenv
+from auth_decorator import login_required
 from werkzeug.exceptions import abort
 from flask_uploads import UploadSet, IMAGES
 from flask_uploads import configure_uploads
+from authlib.integrations.flask_client import OAuth
 import requests
 import urllib.request
 import json
+import os
+
+load_dotenv()
 
 photos = UploadSet('photos', IMAGES)
 
 app = Flask(__name__, instance_relative_config=True, template_folder='templates')
 app.config["UPLOADED_PHOTOS_DEST"] = "static"
+app.secret_key = 'secret'
+app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
 configure_uploads(app, photos)
+
+oauth = OAuth(app)
+google = oauth.register(
+    name='google',
+    client_id="593152738538-277oq6ri6nmlcltf5rlgq1370hq5l4lb.apps.googleusercontent.com",
+    client_secret="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",
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    access_token_params=None,
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    authorize_params=None,
+    jwks_uri = 'https://www.googleapis.com/oauth2/v3/certs',
+    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',  # This is only needed if using openId to fetch user info
+    client_kwargs={'scope': 'openid email profile'},
+)
+
+github = oauth.register (
+  name = 'github',
+    client_id = '4cf1e49e4fce4b5f2215',
+    client_secret = '8c7594f105d53d63843759395f150d4a273a3c54',
+    access_token_url = 'https://github.com/login/oauth/access_token',
+    access_token_params = None,
+    authorize_url = 'https://github.com/login/oauth/authorize',
+    authorize_params = None,
+    api_base_url = 'https://api.github.com/',
+    client_kwargs = {'scope': 'user:email'},
+)
 
 @app.route("/")
 def index():
@@ -24,6 +62,93 @@ def index():
 
     return render_template("main_page.html")
 
+@app.route('/login/google')
+def login_google():
+    google = oauth.create_client('google')  # create the google oauth client
+    redirect_uri = url_for('google_authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+@app.route('/login/github')
+def login_github():
+    github = oauth.create_client('github')
+    redirect_uri = url_for('github_authorize', _external=True)
+    return github.authorize_redirect(redirect_uri)
+
+@app.route('/google/authorize')
+def google_authorize():
+    google = oauth.create_client('google')  # create the google oauth client
+    token = google.authorize_access_token()  # Access token from google (needed to get user info)
+    resp = google.get('userinfo').json()  # userinfo contains stuff u specificed in the scrope
+
+    print(resp)
+
+    data = {
+        "name": resp['name'],
+        "id": resp['id']
+    }
+    print(data)
+
+    url = "http://localhost:8000/api/login"
+
+    response = requests.post(url, json=data)
+    json_data = response.json()
+    print("Got response:")
+    print(json_data.get('token'))
+    resp['token'] = json_data.get('token')
+    session['profile'] = resp
+
+    session.permanent = False  # make the session permanant so it keeps existing after broweser gets closed
+
+    if response.status_code == 200:
+        print("Data successfully sent to server.")
+    else:
+        print("Error: could not send data to server.")
+
+    #user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+    # Here you use the profile/user data that you got and query your database find/register the user
+    # and set ur own data in the session not the profile from google
+    return redirect(url_for("index"))
+
+@app.route('/github/authorize')
+def github_authorize():
+    github = oauth.create_client('github')
+    token = github.authorize_access_token()
+    resp = github.get('user').json()
+    #return "You are successfully signed in using github"
+
+    data = {
+        "name": resp['login'],
+        "id": resp['id']
+    }
+    print(data)
+
+    url = "http://localhost:8000/api/login"
+
+    response = requests.post(url, json=data)
+    json_data = response.json()
+    print("Got response:")
+    print(json_data.get('token'))
+    resp['token'] = json_data.get('token')
+    session['profile'] = resp
+
+    session.permanent = False
+
+    if response.status_code == 200:
+        print("Data successfully sent to server.")
+    else:
+        print("Error: could not send data to server.")
+
+    return redirect(url_for("index"))
+
+@app.route('/ee')
+@login_required
+def hello_world():
+    email = dict(session)['profile']['login']
+    return f'Hello, you are logged in as {email}!'
+
+@app.route("/login")
+def auth():
+    return render_template("btvs/login.html")
 
 @app.route("/episodes")
 def view_episodes():
@@ -78,6 +203,7 @@ def view_episode(ep_id):
     return render_template("btvs/episode.html", episode=episode)
 
 @app.route("/episodes/<int:ep_id>/edit", methods=("GET", "POST"))
+@login_required
 def edit_episode(ep_id):
     url = "http://localhost:8000/api/episodes/{}/".format(ep_id)
     response = urllib.request.urlopen(url)
@@ -130,6 +256,7 @@ def edit_episode(ep_id):
     return render_template("btvs/edit_episode.html", episode=episode)
 
 @app.route("/add_episode", methods=("GET", "POST"))
+@login_required
 def add_episode():
     if request.method == "POST":
         name = request.form["name"]
@@ -184,6 +311,7 @@ def add_episode():
     return render_template("btvs/add_episode.html")
 
 @app.route("/episodes/<int:ep_id>/delete", methods=("POST",))
+@login_required
 def delete_episode(ep_id):
     """ Delete an episode from the btvs. """
 
@@ -224,6 +352,7 @@ def view_season(s_id):
     return render_template("btvs/season.html", season=season)
 
 @app.route("/seasons/<int:s_id>/edit", methods=("GET", "POST"))
+@login_required
 def edit_season(s_id):
     url = "http://localhost:8000/api/seasons/{}/".format(s_id)
     response = urllib.request.urlopen(url)
@@ -264,6 +393,7 @@ def edit_season(s_id):
     return render_template("btvs/edit_season.html", season=season)
 
 @app.route("/add_season", methods=("GET", "POST"))
+@login_required
 def add_season():
     if request.method == "POST":
         name = request.form["name"]
@@ -302,6 +432,7 @@ def add_season():
     return render_template("btvs/add_season.html")
 
 @app.route("/seasons/<int:s_id>/delete", methods=("POST",))
+@login_required
 def delete_season(s_id):
     """ Delete an episode from the btvs. """
 
@@ -334,6 +465,7 @@ def view_character(char_id):
     return render_template("btvs/character.html", character=character)
 
 @app.route("/characters/<int:char_id>/edit", methods=("GET", "POST"))
+@login_required
 def edit_character(char_id):
     url = "http://localhost:8000/api/characters/{}/".format(char_id)
     response = urllib.request.urlopen(url)
@@ -374,6 +506,7 @@ def edit_character(char_id):
     return render_template("btvs/edit_character.html", character=character)
 
 @app.route("/add_character", methods=("GET", "POST"))
+@login_required
 def add_character():
     if request.method == "POST":
         name = request.form["name"]
@@ -412,6 +545,7 @@ def add_character():
     return render_template("btvs/add_character.html")
 
 @app.route("/characters/<int:char_id>/delete", methods=("POST",))
+@login_required
 def delete_character(char_id):
     url = "http://localhost:8000/api/characters/{}/".format(char_id)
     response = urllib.request.urlopen(url)
@@ -442,6 +576,7 @@ def view_crew_member(crew_id):
     return render_template("btvs/crew_member.html", crew_member=crew_member)
 
 @app.route("/crew/<int:crew_id>/edit", methods=("GET", "POST"))
+@login_required
 def edit_crew(crew_id):
     url = "http://localhost:8000/api/crew/{}/".format(crew_id)
     response = urllib.request.urlopen(url)
@@ -478,6 +613,7 @@ def edit_crew(crew_id):
     return render_template("btvs/edit_crew.html", crew_member=crew_member)
 
 @app.route("/add_crew", methods=("GET", "POST"))
+@login_required
 def add_crew():
     if request.method == "POST":
         name = request.form["name"]
@@ -512,6 +648,7 @@ def add_crew():
     return render_template("btvs/add_crew.html")
 
 @app.route("/crew/<int:crew_id>/delete", methods=("POST",))
+@login_required
 def delete_crew(crew_id):
     url = "http://localhost:8000/api/crew/{}/".format(crew_id)
     response = urllib.request.urlopen(url)

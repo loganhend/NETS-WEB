@@ -45,6 +45,7 @@ def fill_database():
     fill_series()
     fill_crew()
     fill_characters()
+    fill_users()
 
 def fill_seasons():
     # Open the JSON file
@@ -140,5 +141,21 @@ def fill_characters():
         db.execute(
             "INSERT OR IGNORE INTO characters (img, name, info, played_by) VALUES (?,?,?,?)",
             (character['filename'], character['name'], character['info'], actor_id,)
+        )
+        db.commit()
+
+def fill_users():
+    # Open the JSON file
+    with open('users.json', 'r') as f:
+        users_data = json.load(f)
+
+    db = get_db()
+
+    print(users_data)
+    # Insert each record into the database
+    for user in users_data:
+        db.execute(
+            "INSERT OR IGNORE INTO users (name, password) VALUES (?,?)",
+            (user['name'], user['password'],)
         )
         db.commit()

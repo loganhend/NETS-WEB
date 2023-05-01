@@ -1,11 +1,75 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
+from flask_oauthlib.provider import OAuth2Provider
+from authlib.integrations.flask_client import OAuth
+from werkzeug.security import check_password_hash
 from flask import url_for
+from datetime import timedelta
+from dotenv import load_dotenv
 import logging
 import os
 from db import init_database
 import database
+import auth
+import json
+
+load_dotenv()
 
 app = Flask(__name__, instance_relative_config=True)
+app.config['SECRET_KEY'] = 'secret_key'
+@app.route('/api/login', methods=['POST'])
+def login():
+    username = request.json.get('name')
+    id = request.json.get('id')
+
+    print(username)
+
+    # check if user exists and password is correct
+    #user = database.get_user(username)
+    #user_dict = json.loads(user)
+    #print("Pass 1: " + str(password) + " Pass 2: " + user_dict["password"])
+    #if (str(password) == user_dict["password"]):
+    #    print("OK")
+
+    # generate JWT token
+    token = auth.encode_token(str(id), app)
+    return jsonify({'token': token}), 200
+
+#@app.route('/api/login_google', methods=['POST'])
+#def login():
+#    username = request.json.get('name')
+#    password = request.json.get('password')
+
+#    print(username)
+    # check if user exists and password is correct
+#    user = database.get_user(username)
+#    user_dict = json.loads(user)
+#    print("Pass 1: " + str(password) + " Pass 2: " + user_dict["password"])
+#    if (str(password) == user_dict["password"]):
+#        print("OK")
+#    if user is not None and (str(password) == user_dict["password"]):
+#        # generate JWT token
+#        token = auth.encode_token(user_dict["id"], app)
+#        return jsonify({'token': token}), 200
+#    else:
+#        print("Fail")
+#        return jsonify({'message': 'Invalid username or password'}), 401
+
+@app.route('/api/protected')
+def protected():
+    token = request.headers.get('Authorization').split()[1]
+    print("Token: ")
+    print(token)
+    user_id = auth.decode_token(token, app)
+    print(user_id)
+    #if isinstance(user_id, str):
+    #    return jsonify({'message': user_id}), 401
+
+    # check if user has necessary permissions
+    #user = User.query.get(user_id)
+    #if not user.has_permission(request.endpoint):
+    #    return jsonify({'message': 'Unauthorized'}), 403
+
+    return jsonify({'id': user_id})
 
 ######### EPISODES #############
 
