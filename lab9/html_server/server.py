@@ -61,6 +61,10 @@ def index():
     """ View the main page. """
 
     return render_template("main_page.html")
+@app.route('/deauth')
+def deauth():
+    session['profile'] = None
+    return redirect(url_for("index"))
 
 @app.route('/login/google')
 def login_google():
@@ -80,12 +84,15 @@ def google_authorize():
     token = google.authorize_access_token()  # Access token from google (needed to get user info)
     resp = google.get('userinfo').json()  # userinfo contains stuff u specificed in the scrope
 
+    print('----------------------')
+    print('Resp:')
     print(resp)
 
     data = {
         "name": resp['name'],
         "id": resp['id']
     }
+    print('Data:')
     print(data)
 
     url = "http://localhost:8000/api/login"
@@ -104,6 +111,7 @@ def google_authorize():
     else:
         print("Error: could not send data to server.")
 
+    print('----------------------')
     #user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
     # Here you use the profile/user data that you got and query your database find/register the user
     # and set ur own data in the session not the profile from google
@@ -393,7 +401,6 @@ def edit_season(s_id):
     return render_template("btvs/edit_season.html", season=season)
 
 @app.route("/add_season", methods=("GET", "POST"))
-@login_required
 def add_season():
     if request.method == "POST":
         name = request.form["name"]
